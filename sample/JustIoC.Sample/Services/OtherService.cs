@@ -2,11 +2,11 @@
 
 namespace JustIoC.Sample.Services
 {
-    public class TestService : ITestService
+    public class OtherService : ITestService
     {
         public void Foo()
         {
-            Console.WriteLine("Bar");
+            Console.WriteLine("Other");
         }
     }
 }

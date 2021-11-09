@@ -6,10 +6,12 @@ namespace JustIoC
     public class JustContainer
     {
         private IDictionary<Type, Type> _justServices;
+        private IDictionary<Type, object> _justInstances;
 
         public JustContainer()
         {
             _justServices = new Dictionary<Type, Type>();
+            _justInstances = new Dictionary<Type, object>();
         }
 
         public JustContainer Add<TService>()
@@ -18,14 +20,30 @@ namespace JustIoC
             return this;
         }
 
+        public JustContainer Add<TService, TImplementation>()
+        {
+            _justServices.Add(typeof(TService), typeof(TImplementation));
+            return this;
+        }
+
         public TService Get<TService>()
             where TService : class
         {
-            if (_justServices.TryGetValue(typeof(TService), out Type implementation))
+            Type serviceType = typeof(TService);
+
+            if (!_justServices.TryGetValue(serviceType, out Type implementationType))
             {
-                return Activator.CreateInstance(implementation) as TService;
+                throw new Exception($"No service could be resolved for type {typeof(TService)}");
             }
-            throw new Exception($"No service could be resolved for type {typeof(TService)}");
+
+            if (!_justInstances.TryGetValue(serviceType, out object instance))
+            {
+                TService newInstance = Activator.CreateInstance(implementationType) as TService;
+                _justInstances.Add(serviceType, newInstance);
+                return newInstance;
+            }
+
+            return instance as TService;
         }
     }
 }

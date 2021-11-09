@@ -9,9 +9,13 @@ namespace JustIoC.Sample
         {
             var just = new JustContainer();
             just.Add<TestService>();
+            just.Add<ITestService, OtherService>();
 
             var testService = just.Get<TestService>();
             testService.Foo();
+
+            var otherService = just.Get<ITestService>();
+            otherService.Foo();
         }
     }
 }
