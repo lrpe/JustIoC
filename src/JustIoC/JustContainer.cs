@@ -42,7 +42,19 @@ namespace JustIoC
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
-                instance = Activator.CreateInstance(implementationType);
+                var constructors = implementationType.GetConstructors();
+                if (constructors.Length != 1)
+                {
+                    throw new Exception($"More than one public constructor found for type '{implementationType}'.");
+                }
+                var parameters = constructors.Single().GetParameters();
+                object[] args = new object[parameters.Length];
+                foreach (var param in parameters)
+                {
+                    var paramInstance = Get(param.ParameterType);
+                    args[param.Position] = paramInstance;
+                }
+                instance = Activator.CreateInstance(implementationType, args);
                 _justInstances.Add(serviceType, instance);
                 return instance;
             }
