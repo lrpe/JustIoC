@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JustIoC
 {
@@ -29,21 +30,24 @@ namespace JustIoC
         public TService Get<TService>()
             where TService : class
         {
-            Type serviceType = typeof(TService);
+            return Get(typeof(TService)) as TService;
+        }
 
+        private object Get(Type serviceType)
+        {
             if (!_justServices.TryGetValue(serviceType, out Type implementationType))
             {
-                throw new Exception($"No service could be resolved for type {typeof(TService)}");
+                throw new Exception($"No service could be resolved for type {serviceType}");
             }
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
                 instance = Activator.CreateInstance(implementationType);
                 _justInstances.Add(serviceType, instance);
-                return instance as TService;
+                return instance;
             }
 
-            return instance as TService;
+            return instance;
         }
     }
 }
