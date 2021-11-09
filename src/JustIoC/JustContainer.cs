@@ -38,9 +38,9 @@ namespace JustIoC
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
-                TService newInstance = Activator.CreateInstance(implementationType) as TService;
-                _justInstances.Add(serviceType, newInstance);
-                return newInstance;
+                instance = Activator.CreateInstance(implementationType);
+                _justInstances.Add(serviceType, instance);
+                return instance as TService;
             }
 
             return instance as TService;
