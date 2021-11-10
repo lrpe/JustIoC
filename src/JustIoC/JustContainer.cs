@@ -106,23 +106,30 @@ namespace JustIoC
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
-                var constructors = descriptor.ImplementationType.GetConstructors();
-                if (constructors.Length != 1)
-                {
-                    throw new JustException($"More than one public constructor found for type '{descriptor.ImplementationType}'.");
-                }
-                var parameters = constructors.Single().GetParameters();
-                object[] args = new object[parameters.Length];
-                foreach (var param in parameters)
-                {
-                    var paramInstance = Get(param.ParameterType);
-                    args[param.Position] = paramInstance;
-                }
-                instance = Activator.CreateInstance(descriptor.ImplementationType, args);
+                instance = CreateInstance(descriptor.ImplementationType);
                 _justInstances.Add(serviceType, instance);
                 return instance;
             }
 
+            return instance;
+        }
+
+        private object CreateInstance(Type implementationType)
+        {
+            object instance;
+            var constructors = implementationType.GetConstructors();
+            if (constructors.Length != 1)
+            {
+                throw new JustException($"More than one public constructor found for type '{implementationType}'.");
+            }
+            var parameters = constructors.Single().GetParameters();
+            object[] args = new object[parameters.Length];
+            foreach (var param in parameters)
+            {
+                var paramInstance = Get(param.ParameterType);
+                args[param.Position] = paramInstance;
+            }
+            instance = Activator.CreateInstance(implementationType, args);
             return instance;
         }
     }
