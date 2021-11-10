@@ -75,6 +75,7 @@ namespace JustIoC
         /// </summary>
         /// <typeparam name="TService">The type of service to get.</typeparam>
         /// <returns>A service of type <typeparamref name="TService"/>.</returns>
+        /// <exception cref="JustException">Service could not be resolved, or no suitable constructor.</exception>
         public TService Get<TService>()
             where TService : class
         {
@@ -85,7 +86,7 @@ namespace JustIoC
         {
             if (!_justServices.TryGetValue(serviceType, out JustDescriptor descriptor))
             {
-                throw new Exception($"No service could be resolved for type {serviceType}");
+                throw new JustException($"No service could be resolved for type {serviceType}");
             }
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
@@ -93,7 +94,7 @@ namespace JustIoC
                 var constructors = descriptor.ImplementationType.GetConstructors();
                 if (constructors.Length != 1)
                 {
-                    throw new Exception($"More than one public constructor found for type '{descriptor.ImplementationType}'.");
+                    throw new JustException($"More than one public constructor found for type '{descriptor.ImplementationType}'.");
                 }
                 var parameters = constructors.Single().GetParameters();
                 object[] args = new object[parameters.Length];
