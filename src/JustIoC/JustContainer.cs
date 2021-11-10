@@ -25,6 +25,10 @@ namespace JustIoC
         /// Registers the given service of type <typeparamref name="TService"/> with the given
         /// <paramref name="lifetime"/>.
         /// </summary>
+        /// <remarks>
+        /// <typeparamref name="TService"/> must have only one public constructor, otherwise the container will not
+        /// be able to create new instances.
+        /// </remarks>
         /// <param name="lifetime">Specifies the lifetime of the service.</param>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
@@ -44,6 +48,10 @@ namespace JustIoC
         /// Registers the given service of type <typeparamref name="TService"/> with the implementation type
         /// <typeparamref name="TImplementation"/> with the given <paramref name="lifetime"/>.
         /// </summary>
+        /// <remarks>
+        /// <typeparamref name="TImplementation"/> must have only one public constructor, otherwise the container will not
+        /// be able to create new instances.
+        /// </remarks>
         /// <param name="lifetime">Specifies the lifetime of the service.</param>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementing class of the service.</typeparam>
