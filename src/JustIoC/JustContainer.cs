@@ -60,13 +60,22 @@ namespace JustIoC
         /// </summary>
         /// <param name="serviceDescriptor">The <see cref="JustContainer"/> that describes the service.</param>
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="serviceDescriptor"/> argument is <c>null</c>.
+        /// </exception>
         /// <exception cref="JustException">Service is already registered.</exception>
         public JustContainer Add(JustDescriptor serviceDescriptor)
         {
+            if (serviceDescriptor is null)
+            {
+                throw new ArgumentNullException(nameof(serviceDescriptor));
+            }
+
             if (!_justServices.TryAdd(serviceDescriptor.ServiceType, serviceDescriptor))
             {
                 throw new JustException($"Service {serviceDescriptor.ServiceType} is already registered.");
             }
+
             return this;
         }
 
