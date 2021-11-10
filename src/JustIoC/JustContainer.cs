@@ -122,21 +122,20 @@ namespace JustIoC
 
         private object CreateInstance(Type implementationType)
         {
-            object instance;
             var constructors = implementationType.GetConstructors();
             if (constructors.Length != 1)
             {
                 throw new JustException($"More than one public constructor found for type '{implementationType}'.");
             }
+
             var parameters = constructors.Single().GetParameters();
             object[] args = new object[parameters.Length];
             foreach (var param in parameters)
             {
-                var paramInstance = Get(param.ParameterType);
-                args[param.Position] = paramInstance;
+                args[param.Position] = Get(param.ParameterType);
             }
-            instance = Activator.CreateInstance(implementationType, args);
-            return instance;
+
+            return Activator.CreateInstance(implementationType, args);
         }
     }
 }
