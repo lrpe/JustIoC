@@ -22,15 +22,17 @@ namespace JustIoC
         }
 
         /// <summary>
-        /// Registers the given service of type <typeparamref name="TService"/> as a singleton.
+        /// Registers the given service of type <typeparamref name="TService"/> with the given
+        /// <paramref name="lifetime"/>.
         /// </summary>
+        /// <param name="lifetime">Specifies the lifetime of the service.</param>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
         /// <exception cref="JustException">Service is already registered.</exception>
-        public JustContainer Add<TService>()
+        public JustContainer Add<TService>(ServiceLifetime lifetime = ServiceLifetime.Singleton)
             where TService : class
         {
-            var descriptor = new JustDescriptor(typeof(TService), typeof(TService));
+            var descriptor = new JustDescriptor(typeof(TService), typeof(TService), lifetime);
             if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
             {
                 throw new JustException($"Service {descriptor.ServiceType} is already registered.");
@@ -40,17 +42,18 @@ namespace JustIoC
 
         /// <summary>
         /// Registers the given service of type <typeparamref name="TService"/> with the implementation type
-        /// <typeparamref name="TImplementation"/> as a singleton.
+        /// <typeparamref name="TImplementation"/> with the given <paramref name="lifetime"/>.
         /// </summary>
+        /// <param name="lifetime">Specifies the lifetime of the service.</param>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementing class of the service.</typeparam>
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
         /// <exception cref="JustException">Service is already registered.</exception>
-        public JustContainer Add<TService, TImplementation>()
+        public JustContainer Add<TService, TImplementation>(ServiceLifetime lifetime = ServiceLifetime.Singleton)
             where TService : class
             where TImplementation : class, TService
         {
-            var descriptor = new JustDescriptor(typeof(TService), typeof(TImplementation));
+            var descriptor = new JustDescriptor(typeof(TService), typeof(TImplementation), lifetime);
             if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
             {
                 throw new JustException($"Service {descriptor.ServiceType} is already registered.");
