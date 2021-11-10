@@ -1,5 +1,7 @@
 # JustIoC
 
+[![Actions Status](https://github.com/lrpe/JustIoC/workflows/.NET/badge.svg)](https://github.com/lrpe/JustIoC/actions)
+
 Just a simple IoC container, that I am implementing as a hobby project.
 
 Current features:
