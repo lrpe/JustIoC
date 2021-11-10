@@ -5,7 +5,7 @@ using System.Text;
 namespace JustIoC
 {
     /// <summary>
-    /// Describes a service registration.
+    /// Describes a service registration in the <see cref="JustContainer"/>.
     /// </summary>
     public class JustDescriptor
     {
@@ -51,12 +51,12 @@ namespace JustIoC
         }
 
         /// <summary>
-        /// The <see cref="Type"/> of the service.
+        /// Gets the <see cref="Type"/> of the service.
         /// </summary>
         public Type ServiceType { get; }
 
         /// <summary>
-        /// The <see cref="Type"/> that implements the service.
+        /// Gets the <see cref="Type"/> that implements the service.
         /// </summary>
         public Type ImplementationType { get; }
 
