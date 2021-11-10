@@ -35,5 +35,15 @@ namespace JustIoC.Tests
             var human2 = just.Get<Human>();
             Assert.Equal<Human>(human1, human2);
         }
+
+        [Fact(DisplayName = "Add Service with Implementation")]
+        public void AddServiceWithImplementation()
+        {
+            var just = new JustContainer();
+            just.Add<IAnimal, Human>();
+            var human = just.Get<IAnimal>();
+            var response = human.Speak();
+            Assert.Equal("Hello!", response);
+        }
     }
 }
