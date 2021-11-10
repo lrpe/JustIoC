@@ -11,7 +11,7 @@ namespace JustIoC.Sample
             just.Add<NewService>();
             just.Add<AnotherService>();
             just.Add<TestService>();
-            just.Add<ITestService, OtherService>();
+            just.Add<ITestService, OtherService>(ServiceLifetime.Singleton);
 
             //var testService = just.Get<TestService>();
             //testService.Foo();
@@ -23,7 +23,11 @@ namespace JustIoC.Sample
 
             if (otherService == test)
             {
-                Console.WriteLine("Works!");
+                Console.WriteLine("Equal!");
+            }
+            else
+            {
+                Console.WriteLine("Not equal!");
             }
         }
     }
