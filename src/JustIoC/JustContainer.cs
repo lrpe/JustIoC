@@ -104,6 +104,12 @@ namespace JustIoC
                 throw new JustException($"No service could be resolved for type {serviceType}");
             }
 
+            if (descriptor.Lifetime is ServiceLifetime.Transient)
+            {
+                var transientInstance = CreateInstance(descriptor.ImplementationType);
+                return transientInstance;
+            }
+
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
                 instance = CreateInstance(descriptor.ImplementationType);
