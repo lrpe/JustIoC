@@ -5,7 +5,7 @@ Just a simple IoC container, that I am implementing as a hobby project.
 Current features:
 - Register services as **concrete types** or using an **interface**.
 - **Basic** support for **constructor injection**.
-- **Only singletons** are supported for now.
+- Supports **Singleton** and **Transient** service lifetimes.
 
 ## Usage
 
@@ -22,6 +22,12 @@ just.Add<IMyService, MyService>();
 ```
 ```csharp
 just.Add<MyConcreteService>();
+```
+
+Register a service with a given lifetime:
+
+```csharp
+just.Add<IMyService, MyService>(ServiceLifeTime.Transient);
 ```
 
 Resolve dependencies:
