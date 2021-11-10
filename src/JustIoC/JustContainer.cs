@@ -9,8 +9,8 @@ namespace JustIoC
     /// </summary>
     public class JustContainer
     {
-        private IDictionary<Type, JustDescriptor> _justServices;
-        private IDictionary<Type, object> _justInstances;
+        private readonly IDictionary<Type, JustDescriptor> _justServices;
+        private readonly IDictionary<Type, object> _justInstances;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JustContainer"/> class.
