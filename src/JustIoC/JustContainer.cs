@@ -28,6 +28,7 @@ namespace JustIoC
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
         /// <exception cref="JustException">Service is already registered.</exception>
         public JustContainer Add<TService>()
+            where TService : class
         {
             var descriptor = new JustDescriptor(typeof(TService), typeof(TService));
             if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
@@ -46,6 +47,8 @@ namespace JustIoC
         /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
         /// <exception cref="JustException">Service is already registered.</exception>
         public JustContainer Add<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService
         {
             var descriptor = new JustDescriptor(typeof(TService), typeof(TImplementation));
             if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
