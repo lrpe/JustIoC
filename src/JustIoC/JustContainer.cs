@@ -48,6 +48,17 @@ namespace JustIoC
         }
 
         /// <summary>
+        /// Registers the service described by the given <paramref name="serviceDescriptor"/>.
+        /// </summary>
+        /// <param name="serviceDescriptor">The <see cref="JustContainer"/> that describes the service.</param>
+        /// <returns>The same <see cref="JustContainer"/> reference, so that multiple calls can be chained.</returns>
+        public JustContainer Add(JustDescriptor serviceDescriptor)
+        {
+            _justServices.Add(serviceDescriptor.ServiceType, serviceDescriptor);
+            return this;
+        }
+
+        /// <summary>
         /// Get a service of type <typeparamref name="TService"/> from the container.
         /// </summary>
         /// <typeparam name="TService">The type of service to get.</typeparam>
