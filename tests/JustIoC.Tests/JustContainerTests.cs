@@ -24,5 +24,16 @@ namespace JustIoC.Tests
             var human2 = just.Get<Human>();
             Assert.NotEqual<Human>(human1, human2);
         }
+
+        [Fact(DisplayName = "Add Singleton using Descriptor")]
+        public void AddDescriptorTest()
+        {
+            var just = new JustContainer();
+            var descriptor = new JustDescriptor(typeof(Human), ServiceLifetime.Singleton);
+            just.Add(descriptor);
+            var human1 = just.Get<Human>();
+            var human2 = just.Get<Human>();
+            Assert.Equal<Human>(human1, human2);
+        }
     }
 }
