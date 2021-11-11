@@ -35,14 +35,7 @@ namespace JustIoC
         /// <exception cref="JustException">Service is already registered.</exception>
         public JustContainer Add<TService>(ServiceLifetime lifetime = ServiceLifetime.Singleton)
             where TService : class
-        {
-            var descriptor = new JustDescriptor(typeof(TService), typeof(TService), lifetime);
-            if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
-            {
-                throw new JustException($"Service {descriptor.ServiceType} is already registered.");
-            }
-            return this;
-        }
+            => Add<TService, TService>(lifetime);
 
         /// <summary>
         /// Registers the given service of type <typeparamref name="TService"/> with the implementation type
@@ -60,14 +53,7 @@ namespace JustIoC
         public JustContainer Add<TService, TImplementation>(ServiceLifetime lifetime = ServiceLifetime.Singleton)
             where TService : class
             where TImplementation : class, TService
-        {
-            var descriptor = new JustDescriptor(typeof(TService), typeof(TImplementation), lifetime);
-            if (!_justServices.TryAdd(descriptor.ServiceType, descriptor))
-            {
-                throw new JustException($"Service {descriptor.ServiceType} is already registered.");
-            }
-            return this;
-        }
+            => Add(new(typeof(TService), typeof(TImplementation), lifetime));
 
         /// <summary>
         /// Registers the service described by the given <paramref name="serviceDescriptor"/>.
@@ -101,9 +87,7 @@ namespace JustIoC
         /// <exception cref="JustException">Service could not be resolved, or no suitable constructor.</exception>
         public TService Get<TService>()
             where TService : class
-        {
-            return Get(typeof(TService)) as TService;
-        }
+            => Get(typeof(TService)) as TService;
 
         private object Get(Type serviceType)
         {
