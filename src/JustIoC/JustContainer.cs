@@ -98,15 +98,13 @@ namespace JustIoC
 
             if (descriptor.Lifetime is ServiceLifetime.Transient)
             {
-                var transientInstance = CreateInstance(descriptor.ImplementationType);
-                return transientInstance;
+                return CreateInstance(descriptor.ImplementationType);
             }
 
             if (!_justInstances.TryGetValue(serviceType, out object instance))
             {
                 instance = CreateInstance(descriptor.ImplementationType);
                 _justInstances.Add(serviceType, instance);
-                return instance;
             }
 
             return instance;
